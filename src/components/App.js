@@ -176,7 +176,6 @@ function App() {
   const [selectedCitiesList, setSelectedCitiesList] = useState(citiesList);
   const [selectedTownsList, setSelectedTownsList] = useState(townsList);
 
-  useEffect(() => {}, [selectedCitiesList]);
   const handleStatesDropdown = (event) => {
     setSelectedState(event.target.value);
     const newCitiesList = getCities(event.target.value);
