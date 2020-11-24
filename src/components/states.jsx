@@ -16,11 +16,7 @@ export default function States(props) {
         onChange={props.onChange}
       >
         {props.states.map((state, index) => (
-          <MenuItem
-            key={state.name}
-            value={state.name}
-            id={`state${index + 1}`}
-          >
+          <MenuItem key={state.name} value={state.name} id={`state${++index}`}>
             {state.name}
           </MenuItem>
         ))}
