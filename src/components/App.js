@@ -1,6 +1,9 @@
-import React, { Component, useState } from "react";
-import "./../styles/App.css";
+import "../styles/App.css";
 
+import React, { Component, useEffect, useState } from "react";
+import States from "./states";
+import Cities from "./cities";
+import Towns from "./towns";
 // Do not alter the states const and values inside it.
 const states = [
   {
@@ -10,33 +13,33 @@ const states = [
         name: "Indore",
         towns: [
           {
-            name: "Mhow",
+            name: "Mhow"
           },
           {
-            name: "Dewas",
-          },
-        ],
+            name: "Dewas"
+          }
+        ]
       },
       {
         name: "Bhopal",
         towns: [
           {
-            name: "Manit",
+            name: "Manit"
           },
           {
-            name: "Berasia",
-          },
-        ],
+            name: "Berasia"
+          }
+        ]
       },
       {
         name: "Gwalior",
         towns: [
           {
-            name: "Ajaypur",
-          },
-        ],
-      },
-    ],
+            name: "Ajaypur"
+          }
+        ]
+      }
+    ]
   },
   {
     name: "Jharkhand",
@@ -45,36 +48,36 @@ const states = [
         name: "Dhanbad",
         towns: [
           {
-            name: "IIT(ISM) Dhanbad",
+            name: "IIT(ISM) Dhanbad"
           },
           {
-            name: "Hirapur",
-          },
-        ],
+            name: "Hirapur"
+          }
+        ]
       },
       {
         name: "Wasseypur",
         towns: [
           {
-            name: "Sardar khan's",
+            name: "Sardar khan's"
           },
           {
-            name: "Faizal khan's",
-          },
-        ],
+            name: "Faizal khan's"
+          }
+        ]
       },
       {
         name: "Mirzapur",
         towns: [
           {
-            name: "Kaleen bhaiya's",
+            name: "Kaleen bhaiya's"
           },
           {
-            name: "Guddu bhaiya's",
-          },
-        ],
-      },
-    ],
+            name: "Guddu bhaiya's"
+          }
+        ]
+      }
+    ]
   },
   {
     name: "Assam",
@@ -83,36 +86,36 @@ const states = [
         name: "Guwhati",
         towns: [
           {
-            name: "Amin",
+            name: "Amin"
           },
           {
-            name: "Jalah",
-          },
-        ],
+            name: "Jalah"
+          }
+        ]
       },
       {
         name: "Jungle1",
         towns: [
           {
-            name: "Tiger found at IIT Guwahati",
+            name: "Tiger found at IIT Guwahati"
           },
           {
-            name: "Leopard found in IIT Guwahati",
-          },
-        ],
+            name: "Leopard found in IIT Guwahati"
+          }
+        ]
       },
       {
         name: "Tezpur",
         towns: [
           {
-            name: "Dibrugarh",
+            name: "Dibrugarh"
           },
           {
-            name: "Silchar",
-          },
-        ],
-      },
-    ],
+            name: "Silchar"
+          }
+        ]
+      }
+    ]
   },
   {
     name: "Bihar",
@@ -121,41 +124,89 @@ const states = [
         name: "Patna",
         towns: [
           {
-            name: "Sonpur",
+            name: "Sonpur"
           },
           {
-            name: "Maner",
-          },
-        ],
+            name: "Maner"
+          }
+        ]
       },
       {
         name: "Gaya",
         towns: [
           {
-            name: "Bakraur",
+            name: "Bakraur"
           },
           {
-            name: "Barachatti",
-          },
-        ],
+            name: "Barachatti"
+          }
+        ]
       },
       {
         name: "Darbhanga",
         towns: [
           {
-            name: "Singhwara",
+            name: "Singhwara"
           },
           {
-            name: "Jale",
-          },
-        ],
-      },
-    ],
-  },
+            name: "Jale"
+          }
+        ]
+      }
+    ]
+  }
 ];
 
 function App() {
-  return <div id="main"></div>;
+  const getCities = (stateSelected) => {
+    let stateObj = states.filter((state) => state.name === stateSelected);
+    return stateObj[0].cities;
+  };
+
+  const getTowns = (cities, citySelected) => {
+    let cityObj = cities.filter((city) => city.name === citySelected);
+    return cityObj[0].towns;
+  };
+
+  let citiesList = getCities(states[0].name);
+  let townsList = getTowns(citiesList, citiesList[0].name);
+
+  const [selectedState, setSelectedState] = useState(states[0].name);
+  const [selectedCity, setSelectedCity] = useState(states[0].cities[0].name);
+  const [selectedCitiesList, setSelectedCitiesList] = useState(citiesList);
+  const [selectedTownsList, setSelectedTownsList] = useState(townsList);
+
+  useEffect(() => {}, [selectedCitiesList]);
+  const handleStatesDropdown = (event) => {
+    setSelectedState(event.target.value);
+    const newCitiesList = getCities(event.target.value);
+    setSelectedCitiesList(newCitiesList);
+    setSelectedCity(newCitiesList[0].name);
+    const newTownsList = getTowns(newCitiesList, newCitiesList[0].name);
+    setSelectedTownsList(newTownsList);
+  };
+
+  const handleCitiesDropdown = (event) => {
+    setSelectedCity(event.target.value);
+    const newTownsList = getTowns(selectedCitiesList, event.target.value);
+    setSelectedTownsList(newTownsList);
+  };
+
+  return (
+    <div id="main">
+      <States
+        states={states}
+        selectedState={selectedState}
+        onChange={(event) => handleStatesDropdown(event)}
+      />
+      <Cities
+        cities={selectedCitiesList}
+        selectedCity={selectedCity}
+        onChange={(event) => handleCitiesDropdown(event)}
+      />
+      <Towns towns={selectedTownsList} />
+    </div>
+  );
 }
 
 export default App;
