@@ -16,7 +16,9 @@ export default function Cities(props) {
         {props.city.name}
       </div>
       {toggleTownDisplay &&
-        props.city.towns.map((town) => <Towns town={town} />)}
+        props.city.towns.map((town, index) => (
+          <Towns id={`town${index + 1}`} town={town} />
+        ))}
     </>
   );
 }

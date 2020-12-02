@@ -11,7 +11,9 @@ export default function States(props) {
     <>
       <div onClick={handleStateClick}>{props.state.name}</div>
       {toggleCityDisplay &&
-        props.state.cities.map((city) => <Cities city={city} />)}
+        props.state.cities.map((city, index) => (
+          <Cities id={`city${index + 1}`} city={city} />
+        ))}
     </>
   );
 }

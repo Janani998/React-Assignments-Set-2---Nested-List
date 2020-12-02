@@ -158,8 +158,8 @@ const states = [
 function App() {
   return (
     <div id="main">
-      {states.map((state) => (
-        <States state={state} />
+      {states.map((state, index) => (
+        <States id={`state${index + 1}`} state={state} />
       ))}
     </div>
   );
