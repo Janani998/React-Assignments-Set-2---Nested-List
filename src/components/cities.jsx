@@ -12,7 +12,6 @@ export default function Cities(props) {
   return (
     <>
       <div className="citySpace" onClick={handleCityClick}>
-        {" "}
         {props.city.name}
       </div>
       {toggleTownDisplay &&
